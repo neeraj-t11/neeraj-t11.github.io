@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAN Medical Image Translation</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/theme/black.css">
+
+    <style>
+        img { width: 100%; height: auto; }
+
+        .top-bar {
+            position: fixed;
+            top: 10px;
+            right: 20px;
+            z-index: 999;
+        }
+
+        .top-bar a {
+            background: #4CAF50;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="top-bar">
+    <a href="paper.pdf" target="_blank">View Paper</a>
+</div>
+
+<div class="reveal">
+<div class="slides">
+
+<section><img src="./slides/slide1.png">
+<aside class="notes">1</aside></section>
+
+<section><img src="./slides/slide2.png">
+<aside class="notes">
+To begin, let me give you an overview of my project. Histopathological image analysis is crucial in cancer diagnostics, especially breast cancer. Traditional methods like IHC staining are used to detect specific proteins such as HER2, which is vital for determining the course of treatment. However, the conventional IHC process is time-consuming, expensive, and labor-intensive. The primary focus of this project is to improve upon these limitations by using Generative Adversarial Networks, or GANs, to automate the translation of H&E stained images into IHC-equivalent images. This approach is designed to specifically improve the accuracy of predicting high HER2 expression, classified as IHC grade 3+. By integrating a classification wrapper with the GAN model, I aimed to enhance the clinical relevance of the generated images. 2
+</aside></section>
+
+<section><img src="./slides/slide3.png">
+<aside class="notes">
+Now, let's talk about the foundation of this research — Histopathology. Histopathology is essential in diagnosing diseases, especially cancer. For breast cancer diagnosis, pathologists typically examine tissue samples using two main staining techniques: Hematoxylin & Eosin, or H&E, and Immunohistochemistry, or IHC. H&E staining highlights general tissue structures, while IHC is more specialized, detecting specific proteins like HER2, which plays a key role in breast cancer treatment. However, there’s a challenge with traditional IHC staining—it’s labor-intensive, expensive, and time-consuming. For pathologists, preparing IHC stains requires precise steps and reagents, which can slow down diagnosis. The importance of accurately predicting HER2 expression is critical. HER2 is a protein that, when overexpressed, can lead to aggressive tumor growth. Accurate prediction of HER2 expression, also classified as IHC grade 3+, is essential for guiding treatment decisions. 3
+</aside></section>
+
+<section><img src="./slides/slide4.png">
+<aside class="notes">
+While AI-driven methods like Generative Adversarial Networks (GANs) have shown great promise in automating this translation, there are still challenges—especially when it comes to predicting high IHC grade. Now, why did I choose GANs for this research over other emerging models, like diffusion models? The answer lies in practicality. Given the timeframe of this project and the available resources, GANs offered a well-documented, streamlined framework for rapid experimentation and model development. Diffusion models, while capable of generating high-quality images, are computationally expensive and require a learning curve. GANs have a more established infrastructure and require fewer computational resources. Additionally, while GANs have training stability issues, they are still more feasible to fine-tune in the context of this research. 4
+</aside></section>
+
+<section><img src="./slides/slide5.png">
+<aside class="notes">
+Moving on to the core objectives of this research, there are two main goals. The first objective is to develop an enhanced GAN model specifically for focusing on accurately identifying high IHC grade. The second objective is to investigate whether incorporating a classification wrapper—an additional model layer—can improve the clinical relevance of the generated IHC images, ensuring the predictions are not only visually accurate but also meaningful from a diagnostic perspective. 5
+</aside></section>
+
+<section><img src="./slides/slide6.png">
+<aside class="notes">
+In this project, we used a hybrid system combining a GAN with a classification. The GAN is responsible for generating realistic IHC images from H&E inputs. We integrated a classification wrapper to improve the clinical relevance, specifically by helping the model more accurately predict high IHC grade. the use of multi-scale losses (L2, L3, L4) is to better capture image details across various scales, ensuring both global and local features are represented in the generated images. Here’s an overview of the system architecture—showing how the H&E input, generator, and classification model work together. 6
+</aside></section>
+
+<section><img src="slides/slide7.png">
+<aside class="notes">
+Now, let's focus on the GAN model architecture, specifically the generator. We based our generator on a modified Pix2Pix model with a ResNet-inspired architecture. The generator uses 9 residual blocks to learn complex transformations while preserving spatial information. We also introduced a multi-scale pyramid structure. This helps the model capture fine details at different scales. As you can see from the diagram of the generator architecture and the ResNet block, the model processes the input through a series of layers, including downsampling and upsampling operations, before generating the final IHC image. 7
+</aside></section>
+
+<section><img src="./slides/slide8.png">
+<aside class="notes">8</aside></section>
+
+<section><img src="./slides/slide9.png">
+<aside class="notes">
+In addition to the generator, the discriminator plays a critical role in the GAN framework. We used a PatchGAN discriminator, which operates at the patch level rather than over the entire image. This is important because it helps the model focus on small, local details, which are crucial for generating high-quality IHC images. The architecture of the discriminator includes multiple convolutional layers, each followed by Leaky ReLU activations and batch normalization. The final output is a grid of patch classifications, where each patch is classified as either real or fake. 9
+</aside></section>
+
+<section><img src="./slides/slide10.png">
+<aside class="notes">
+We also implemented several loss functions, including adversarial loss, L1 loss for pixel-wise accuracy, and multi-scale L2, L3, and L4 losses. Additionally, we incorporated classification and feature matching losses to ensure that the generated IHC images maintain their clinical relevance, particularly in predicting high IHC grade. 10
+</aside></section>
+
+<section><img src="./slides/slide11.png">
+<aside class="notes">
+For the classification task, we integrated a pretrained RegNet_Y_400MF classifier to enhance the GAN’s ability to predict High IHC grade. The classification wrapper computes two types of losses: classification loss and feature matching loss. The classification loss ensures that the generated images are correctly labeled according to HER2 expression levels. The feature matching loss helps stabilize training by comparing feature vectors between real and generated images at multiple levels, ensuring that the GAN preserves important structural features. The classification model takes advantage of transfer learning, where we use a pretrained model and fine-tune it to specialize in IHC grade detection. 11
+</aside></section>
+
+<section><img src="./slides/slide12.png">
+<aside class="notes">
+To evaluate the performance of the GAN model, we used several key metrics: Peak Signal-to-Noise Ratio (PSNR): This measures the reconstruction quality of the generated images. A higher PSNR means the generated IHC images are closer to the real ones, which is critical for accurate diagnostics. Structural Similarity Index (SSIM): This assesses how structurally similar the generated images are to the real IHC images. It's particularly useful in medical imaging because it aligns well with human perception of visual quality. Perceptual Loss and Learned Perceptual Image Patch Similarity (LPIPS): Both of these metrics focus on the perceptual similarity between the generated and real images. Perceptual loss is computed using a pre-trained VGG network, while LPIPS compares image patches based on deep features, offering a more nuanced view of visual fidelity. Classification Accuracy for IHC Grade 3+ (Class 1): we specifically measured the model’s accuracy in identifying IHC grade 3+ cases. 12
+</aside></section>
+
+<section><img src="./slides/slide13.png">
+<aside class="notes">
+Here, we compare the results between the standard GAN model and the enhanced GAN with the classification wrapper. For metrics PSNR and SSIM, we observed improvements with the enhanced model, indicating that the generated images are not only visually closer to the real IHC images but also more structurally accurate. Perceptual Loss and LPIPS also showed improvements, highlighting better perceptual similarity. the enhanced model generates images that are closer to the ground truth in terms of human-perceived quality. Most importantly, we saw a improvement in Class 1 accuracy—which is the detection of IHC grade 3+. In summary, the enhanced GAN with the classification wrapper significantly outperforms the standard GAN model in generating clinically relevant IHC images. 13
+</aside></section>
+
+<section><img src="./slides/slide14.png">
+<aside class="notes">
+While our enhanced GAN model shows promising results, there are some limitations to address. First, the increased complexity of the model adds training difficulty and requires more computational resources, especially for the classification wrapper. 14
+</aside></section>
+
+<section><img src="./slides/slide15.png">
+<aside class="notes">
+Second, generalizability remains a challenge. The model was trained on a specific dataset of breast cancer HER2 samples, and further testing is needed to verify how well it performs on other types of histopathological images or cancers. 15
+</aside></section>
+
+<section><img src="./slides/slide16.png">
+<aside class="notes">
+Lastly, although we saw improvements in Class 1 accuracy, detecting high HER2 expression (IHC grade 3+), further work is needed to push this accuracy even higher to fully meet clinical diagnostic needs. 16
+</aside></section>
+
+<section><img src="./slides/slide17.png">
+<aside class="notes">
+Moving forward, investigating diffusion models could provide alternative approaches to enhance clinical relevance. 17
+</aside></section>
+
+<section><img src="./slides/slide18.png">
+<aside class="notes">
+Another direction is to integrate multimodal data. By incorporating various data types such as genomic, proteomic, and imaging information, we can enhance model training and diagnostic capabilities, leading to more comprehensive insights into complex diseases. 18
+</aside></section>
+
+<section><img src="./slides/slide19.png">
+<aside class="notes">
+To wrap up, this research has made significant strides in improving the diagnostic accuracy of HER2 expression in breast cancer using GANs. By incorporating a classification wrapper into the GAN model, we’ve enhanced both the visual quality of the generated IHC images and their clinical relevance. The results demonstrates improvements in all key metrics. In the future, by refining the model, we hope to see AI-driven diagnostic tools become standard practice in pathology, improving patient outcomes and efficiency in clinical environments. Thank you for your time. 19
+</aside></section>
+
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js/plugin/notes/notes.js"></script>
+
+<script>
+Reveal.initialize({
+    controls: true,
+    progress: true,
+    slideNumber: true,
+    hash: true,
+    touch: true,
+    plugins: [ RevealNotes ]
+});
+</script>
+
+</body>
+</html>
