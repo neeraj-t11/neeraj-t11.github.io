@@ -36,15 +36,18 @@ header a:hover {
 section {
     padding: 20px;
     margin: 20px;
-    background: #fff;
+    background: rgb(51, 51, 51); /* changed */
+    color: #ffffff; /* text white */
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* slightly darker for contrast */
 }
 
 section h2 {
-    border-bottom: 2px solid #4CAF50;
+    border-bottom: 2px solid #4CAF50; /* keep green */
     padding-bottom: 10px;
     margin-bottom: 20px;
+    color: #4CAF50;
+
 }
 
 section h3 {
@@ -122,12 +125,13 @@ footer p {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background: #ffffff;
+    background: rgb(70, 70, 70); /* lighter than section (51,51,51) */
     padding: 15px;
     border-radius: 8px;
-    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    box-shadow: 0 0 8px rgba(0,0,0,0.4);
     min-height: 260px;
     max-width: 350px;
+    color: #ffffff; /* ensure text is white */
 }
 
 /* REMOVE card styling from h3 (keep only text styling) */
@@ -139,6 +143,11 @@ footer p {
 /* THIS is the key part */
 .card-content {
     flex-grow: 1;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    transition: 0.2s ease;
 }
 
 /* BUTTON ROW */
@@ -165,7 +174,7 @@ footer p {
 .exp-header span {
     white-space: nowrap;
     font-size: 0.95em;
-    color: #555;
+    color: #cccccc; /* lighter grey for visibility */
 }
 
 .project-links {
@@ -185,4 +194,32 @@ footer p {
 
 .project-links a:hover {
     background: #45a049;
+}
+
+
+.hero__contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center; /* optional */
+}
+
+.hero__contact p {
+    margin: 0;
+}
+
+.hero__banner img {
+    width: 100%;
+    max-height: 250px;
+    object-fit: cover;
+    border-bottom: 3px solid #444;
+}
+
+section a {
+    color: #4CAF50; /* keep your green */
+    text-decoration: none;
+}
+
+section a:hover {
+    text-decoration: underline;
 }
