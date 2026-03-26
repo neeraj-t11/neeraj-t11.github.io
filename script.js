@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
     for (const header of sectionHeaders) {
         header.addEventListener("click", function() {
             const section = header.parentElement;
-            const content = section.querySelectorAll('h3, p, ul');
+            const content = section.querySelectorAll('h3, p, ul, .project-grid, .skills-grid');
             
             for (const element of content) {
                 if (element.style.display === "none") {
