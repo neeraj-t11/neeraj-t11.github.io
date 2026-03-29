@@ -188,6 +188,19 @@ section h2::before {
   opacity: 0.5;
 }
 
+/* Collapse indicator arrow */
+section h2 .collapse-indicator {
+  margin-left: auto;
+  font-size: 0.85rem;
+  opacity: 0.6;
+  font-family: var(--font-body);
+  transition: transform 0.2s;
+}
+
+section h2.collapsed .collapse-indicator {
+  opacity: 0.4;
+}
+
 section h3 {
   font-family: var(--font-display);
   font-weight: 600;
